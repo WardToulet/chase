@@ -7,6 +7,6 @@ export class GameManager {
 
   /* Is there a game running at the moment */
   get isRunning(): boolean {
-    return !!this.instance;
+    return this.instance !== undefined;
   }
 }

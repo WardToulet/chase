@@ -4,7 +4,7 @@
   "author": "Ward Toulet <ward@toulet.net>",
   "license": "MIT",
   "scripts": {
-    "build": "rimarf ./dist && tsc",
+    "build": "tsc",
     "dev": "ts-node ./src",
     "start": "node dist/index.js"
   },

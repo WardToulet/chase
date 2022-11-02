@@ -1,44 +1,52 @@
 import Fastify from 'fastify';
+import ejs from "ejs";
+import path from 'path';
 
 import FastifyStatic from '@fastify/static';
 import FastifyView from '@fastify/view';
 import FastifyFormBody from '@fastify/formbody';
 
-import ejs from "ejs";
-import path from 'path';
-
 import { Point, PointManager } from './point';
 import { GameManager } from './game'
+import { knex } from './database';
 
 const pointManager = new PointManager();
 const gameManager = new GameManager();
 
 const fastify = Fastify();
 
-fastify.get<{Params: { uuid: string }}>('/point/:uuid', (req, res) => {
-  // Check if the point is known, if not we offer to register it
-  if (!pointManager.doesExist(req.params.uuid)) {
-    res.view('register.ejs', { uuid: req.params.uuid })
-    return;
+fastify.get<{Params: { uuid: string }}>('/point/:uuid', async (req, res) => {
+  const isRegistered = await pointManager.isRegistered(req.params.uuid);
+  if (!isRegistered) {
+    return res.view('register.ejs', { uuid: req.params.uuid });
   }
 
-  if (!gameManager.isRunning) {
-    res.view('no-game.ejs');
-    return;
+  const isRunning  = gameManager.isRunning;
+  if (!isRunning) {
+    return res.view('no-game.ejs');
   }
 
-  res.send('Hello');
+  return res.view('success.ejs', {
+    title: 'Captured',
+    msg: 'Go capture something else'
+  });
 })
 
-fastify.post('/register', (req, res) => {
-  pointManager.register(req.body as Point);
-  res.view('register-success.ejs', req.body as Point);
+fastify.post('/register', async (req, res) => {
+  await pointManager.register(req.body as Point);
+  return res.view('register-success.ejs', req.body as Point);
+})
+
+fastify.get('/point', async (req, res) => {
+  return knex<Point>('Point');
 })
 
 fastify.register(FastifyFormBody);
+
 fastify.register(FastifyStatic, {
   root: path.join(__dirname, 'static'),
 });
+
 fastify.register(FastifyView, {
   root: path.join(__dirname, 'views'),
   engine: { ejs }

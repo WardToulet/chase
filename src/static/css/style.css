@@ -29,3 +29,11 @@ pre {
   box-shadow: var(--shadow-2);
   border-radius: var(--radius-2);
 }
+
+.failure {
+  background-color: var(--red-8);
+}
+
+.success {
+  background-color: var(--green-8);
+}

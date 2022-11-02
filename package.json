@@ -19,7 +19,11 @@
     "@fastify/formbody": "^7.3.0",
     "@fastify/static": "^6.5.0",
     "@fastify/view": "^7.1.1",
+    "@types/mysql": "^2.15.21",
+    "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
-    "fastify": "^4.9.2"
+    "fastify": "^4.9.2",
+    "knex": "^2.3.0",
+    "mysql2": "^2.3.3"
   }
 }

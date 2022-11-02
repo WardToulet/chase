@@ -44,4 +44,4 @@ fastify.register(FastifyView, {
   engine: { ejs }
 })
 
-fastify.listen({ port: 80 });
+fastify.listen({ port: Number(process.env.PORT) });

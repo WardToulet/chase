@@ -37,3 +37,15 @@ pre {
 .success {
   background-color: var(--green-8);
 }
+
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+#map {
+  block-size: 100vh;
+  background-color: var(--surface-2);
+}

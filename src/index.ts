@@ -37,7 +37,9 @@ fastify.post('/register', async (req, res) => {
   return res.view('register-success.ejs', req.body as Point);
 })
 
-fastify.get('/point', async (req, res) => {
+fastify.get('/map', (req, res) => res.view('map.ejs'));
+
+fastify.get('/api/point', async (req, res) => {
   return knex<Point>('Point');
 })
 
